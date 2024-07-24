@@ -1,5 +1,30 @@
-"scripts": {
-    "dev": "next dev",
-    "build": "next build && next export",
-    "start": "next start"
+{
+    "name": "word-parachute-game",
+    "version": "1.0.0",
+    "description": "A word parachute game built with Next.js and deployed on Netlify",
+    "main": "index.js",
+    "scripts": {
+        "dev": "next dev",
+        "build": "next build && next export",
+        "start": "next start",
+        "lint": "next lint"
+    },
+    "keywords": [
+        "nextjs",
+        "netlify",
+        "game",
+        "word-game"
+    ],
+    "author": "Your Name",
+    "license": "MIT",
+    "dependencies": {
+        "@netlify/functions": "^1.6.0",
+        "next": "^13.4.7",
+        "react": "^18.2.0",
+        "react-dom": "^18.2.0"
+    },
+    "devDependencies": {
+        "eslint": "^8.43.0",
+        "eslint-config-next": "^13.4.7"
+    }
 }
