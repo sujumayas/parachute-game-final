@@ -1,42 +1,46 @@
 // netlify/functions/saveHighScore.js
-const { getKVStore } = require('@netlify/functions');
+const { readScores, writeScores } = require('./scoresHandler');
+const corsHandler = require('./corsHandler');
 
-exports.handler = async (event) => {
-    const { userId, score } = JSON.parse(event.body);
-    const kvstore = getKVStore();
+const handler = async (event) => {
+    if (event.httpMethod === 'OPTIONS') {
+        return { statusCode: 200 }; // Handle preflight request
+    }
+
+    if (event.httpMethod !== 'POST') {
+        return { statusCode: 405, body: 'Method Not Allowed' };
+    }
 
     try {
-        // Get existing scores
-        let scores = await kvstore.get(`highscores_${userId}`) || [];
-        if (!Array.isArray(scores)) {
-            scores = [];
+        const { userId, score } = JSON.parse(event.body);
+        const scores = await readScores();
+
+        // Update user's high scores
+        if (!scores.highScores[userId]) {
+            scores.highScores[userId] = [];
         }
-
-        // Add new score
-        scores.push(parseInt(score));
-
-        // Sort and keep only top 10
-        scores.sort((a, b) => b - a);
-        scores = scores.slice(0, 10);
-
-        // Save updated scores
-        await kvstore.set(`highscores_${userId}`, scores);
+        scores.highScores[userId].push({ score: parseInt(score), timestamp: Date.now() });
+        scores.highScores[userId].sort((a, b) => b.score - a.score);
+        scores.highScores[userId] = scores.highScores[userId].slice(0, 10);
 
         // Update global top scores
-        let topScores = await kvstore.get('top_highscores') || [];
-        topScores.push({ userId, score: parseInt(score) });
-        topScores.sort((a, b) => b.score - a.score);
-        topScores = topScores.slice(0, 10);
-        await kvstore.set('top_highscores', topScores);
+        scores.topScores.push({ userId, score: parseInt(score), timestamp: Date.now() });
+        scores.topScores.sort((a, b) => b.score - a.score);
+        scores.topScores = scores.topScores.slice(0, 10);
+
+        await writeScores(scores);
 
         return {
             statusCode: 200,
-            body: JSON.stringify({ message: 'High score saved successfully', scores }),
+            body: JSON.stringify({ message: 'High score saved successfully', scores: scores.highScores[userId] }),
         };
     } catch (error) {
+        console.error('Error in saveHighScore function:', error);
         return {
             statusCode: 500,
-            body: JSON.stringify({ error: 'Failed to save high score' }),
+            body: JSON.stringify({ error: 'Failed to save high score', details: error.message }),
         };
     }
 };
+
+exports.handler = corsHandler(handler);

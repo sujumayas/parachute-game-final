@@ -1,28 +1,28 @@
 // StatsController.js
 export class StatsController {
     constructor() {
-        this.apiUrl = '/api/highscores'; // Adjust this to your API endpoint
+        this.functionPath = process.env.NODE_ENV === 'development' ? 'http://localhost:8888/.netlify/functions/' : '/.netlify/functions/'; // Adjust this to your API endpoint
     }
 
-    saveHighScore = async (score) => {
+    saveHighScore = async (userId, score) => {
         try {
-            const response = await fetch('/.netlify/functions/saveHighScore', {
+            const response = await fetch(`${this.functionPath}saveHighScore`, {
                 method: 'POST',
                 body: JSON.stringify({ userId, score }),
             });
             const data = await response.json();
             console.log('High score saved:', data);
-            getHighScores();
         } catch (error) {
             console.error('Error saving high score:', error);
         }
     }
 
-    getHighScores = async () => {
+    getHighScores = async (userId) => {
         try {
-            const response = await fetch(`/.netlify/functions/getHighScores?userId=${userId}`);
+            const response = await fetch(`${this.functionPath}getHighScores?userId=${userId}`);
             const data = await response.json();
-            setHighScores(data);
+            console.log('High scores retrieved:', data);
+            return data;
         } catch (error) {
             console.error('Error getting high scores:', error);
         }
@@ -30,9 +30,10 @@ export class StatsController {
 
     getTopHighScores = async () => {
         try {
-            const response = await fetch('/.netlify/functions/getTopHighScores');
+            const response = await fetch(`${this.functionPath}getTopHighScores`);
             const data = await response.json();
-            setTopScores(data);
+            console.log('Top scores retrieved:', data);
+            return data;
         } catch (error) {
             console.error('Error getting top high scores:', error);
         }
