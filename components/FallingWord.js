@@ -9,6 +9,7 @@ export class FallingWord {
         this.phase = Math.random() * Math.PI * 2;
         this.renderer = renderer;
         this.gnomeImage = gnomeImage;
+        this.prevX = this.x; // Add this line to track previous x-position
     }
 
     draw() {
@@ -39,8 +40,10 @@ export class FallingWord {
         this.renderer.ctx.lineWidth = 1;
         this.renderer.ctx.stroke();
 
-        // Draw gnome with custom image
-        this.renderer.drawImage(this.gnomeImage, this.x, this.y + parachuteHeight, gnomeWidth, gnomeHeight);
+        // Draw gnome with custom image, flipped based on movement direction
+        const isMovingRight = this.x > this.prevX;
+        const imageName = isMovingRight ? `${this.gnomeImage}-flipped` : this.gnomeImage;
+        this.renderer.drawImage(imageName, this.x, this.y + parachuteHeight, gnomeWidth, gnomeHeight);
 
         // Draw word
         this.renderer.drawText(this.word, this.x + parachuteWidth / 2, this.y + 20, {
@@ -49,6 +52,7 @@ export class FallingWord {
     }
 
     update() {
+        this.prevX = this.x; // Store current x before updating
         this.y += this.speed;
         this.x += Math.sin(this.y * this.frequency + this.phase) * this.amplitude / 20;
     }

@@ -6,7 +6,7 @@ export class Renderer {
         this.backgroundImg.src = 'background.png';
         this.gnomeImages = {};
         this.loadedImages = 0;
-        this.totalImages = 6; // background + 5 gnome images
+        this.totalImages = 10; // background + 6 gnomes x 2
         this.onAllImagesLoaded = null;
     }
 
@@ -19,7 +19,8 @@ export class Renderer {
                     this.onAllImagesLoaded();
                 }
             };
-            img.src = name;
+
+            img.src = name+'.png';
             this.gnomeImages[name] = img;
         });
     }
@@ -38,6 +39,7 @@ export class Renderer {
     }
 
     drawImage(src, x, y, width, height) {
+        console.log(this.gnomeImages)
         const img = this.gnomeImages[src] || this.backgroundImg;
         if (img.complete) {
             this.ctx.drawImage(img, x, y, width, height);

@@ -10,7 +10,12 @@ export class PatrollingGnome {
     }
 
     draw() {
-        this.renderer.drawImage(this.gnomeImage, this.x, this.y - 30, 60, 60);
+        if(this.direction > 0){
+            this.renderer.drawImage(`${this.gnomeImage}-flipped`, this.x, this.y - 30, 60, 60);
+        }else{
+            this.renderer.drawImage(`${this.gnomeImage}`, this.x, this.y - 30, 60, 60);
+        }
+        
     }
 
     update() {

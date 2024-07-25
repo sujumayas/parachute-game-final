@@ -7,8 +7,10 @@ export class AudioManager {
         this.backgroundMusic = new Audio('https://cdn.freesound.org/previews/697/697844_10643461-lq.mp3');
         this.hurtSound = new Audio('https://cdn.freesound.org/previews/261/261855_4157918-lq.mp3');
         this.backgroundMusic.loop = true;
-        this.backgroundMusic.volume = 0.1;
-        this.destroySound.volume = 0.06;
+        this.backgroundMusic.volume = 0.06;
+        this.destroySound.volume = 0.04;
+        this.hurtSound.volume = 0.05;
+        this.fireSound.volume = 0.05;
     }
 
     playSound(sound) {
