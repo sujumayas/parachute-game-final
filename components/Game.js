@@ -44,7 +44,7 @@ class Game {
         this.gameOver = true;
         this.renderer.drawGameOver(this.score);
         try {
-            await this.statsController.updateHighScore(this.userId, this.score);
+            await this.statsController.saveHighScore(this.userId, this.score);
             const highScores = await this.statsController.getHighScores(this.userId);
             const topScores = await this.statsController.getTopHighScores();
             console.log('High Scores:', highScores);
