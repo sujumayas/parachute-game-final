@@ -1,10 +1,10 @@
-// netlify/functions/getHighScores.js
+// getHighScores.js
 const { readScores } = require('./scoresHandler');
 const corsHandler = require('./corsHandler');
 
 const handler = async (event) => {
     if (event.httpMethod === 'OPTIONS') {
-        return { statusCode: 200 }; // Handle preflight request
+        return { statusCode: 200 };
     }
 
     const { userId } = event.queryStringParameters;
