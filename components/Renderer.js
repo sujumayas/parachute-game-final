@@ -3,7 +3,7 @@ export class Renderer {
         this.canvas = canvas;
         this.ctx = canvas.getContext('2d');
         this.backgroundImg = new Image();
-        this.backgroundImg.src = 'https://as2.ftcdn.net/v2/jpg/07/74/59/31/1000_F_774593110_JqF5VoFkHpEG39ux6ngEY6OVJJ6RT3lN.jpg';
+        this.backgroundImg.src = 'background.png';
         this.gnomeImages = {};
         this.loadedImages = 0;
         this.totalImages = 6; // background + 5 gnome images
