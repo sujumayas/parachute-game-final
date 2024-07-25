@@ -59,14 +59,8 @@ export default function Home() {
             </Head>
 
             <main className={styles.main}>
-                <div id="gameContainer" className={styles.gameContainer}>
-                    <canvas ref={canvasRef} id="gameCanvas"></canvas>
-                    <button className={styles.pauseButton} onClick={togglePause}>
-                        {isPaused ? 'Resume' : 'Pause'}
-                    </button>
-                    <button className={styles.resetButton} onClick={resetGame}>
-                        Reset
-                    </button>
+                <div className={styles.gameContainer}>
+                    <canvas ref={canvasRef} className={styles.gameCanvas}></canvas>
                 </div>
 
                 <input
@@ -76,13 +70,24 @@ export default function Home() {
                     placeholder="Type words here"
                 />
 
-                <div id="audioControls" className={styles.audioControls}>
-                    <button className={styles.audioButton} onClick={toggleMusic}>
-                        {musicEnabled ? 'Disable Music' : 'Enable Music'}
-                    </button>
-                    <button className={styles.audioButton} onClick={toggleSFX}>
-                        {sfxEnabled ? 'Disable SFX' : 'Enable SFX'}
-                    </button>
+                <div className={styles.controlsContainer}>
+                    <div className={styles.gameControls}>
+                        <button className={styles.pauseButton} onClick={togglePause}>
+                            {isPaused ? 'Resume' : 'Pause'}
+                        </button>
+                        <button className={styles.resetButton} onClick={resetGame}>
+                            Reset
+                        </button>
+                    </div>
+
+                    <div className={styles.audioControls}>
+                        <button className={styles.audioButton} onClick={toggleMusic}>
+                            {musicEnabled ? 'Disable Music' : 'Enable Music'}
+                        </button>
+                        <button className={styles.audioButton} onClick={toggleSFX}>
+                            {sfxEnabled ? 'Disable SFX' : 'Enable SFX'}
+                        </button>
+                    </div>
                 </div>
             </main>
         </div>

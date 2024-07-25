@@ -1,42 +1,73 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+    box-sizing: border-box;
+}
 
-#gameContainer {
+.main {
+    width: 100%;
+    max-width: 800px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.gameContainer {
     position: relative;
     width: 100%;
-    height: calc(100vh - 60px);
+    height: 60vh;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
     overflow: hidden;
 }
 
-#backgroundImage {
-    position: absolute;
-    top: 0;
-    left: 0;
+.gameCanvas {
+    display: block;
     width: 100%;
     height: 100%;
-    object-fit: cover;
-    z-index: -1;
 }
 
-#gameCanvas {
-    display: block;
-}
-
-#inputBox {
+.inputBox {
     font-size: 20px;
-    padding: 5px;
-    margin-bottom: 10px;
-    width: 300px;
+    padding: 10px;
+    margin-bottom: 20px;
+    width: 100%;
+    max-width: 300px;
 }
 
-#audioControls {
-    position: absolute;
-    top: 10px;
-    right: 10px;
+.controlsContainer {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin-bottom: 20px;
 }
 
-#pauseButton {
+.gameControls {
+    display: flex;
+    gap: 10px;
+}
+
+.audioControls {
+    display: flex;
+    gap: 10px;
+}
+
+.pauseButton,
+.resetButton,
+.audioButton {
+    font-size: 16px;
+    padding: 10px 15px;
+    cursor: pointer;
+}
+
+.statusBar {
     position: absolute;
     top: 10px;
     left: 10px;
-    font-size: 16px;
+    background-color: rgba(255, 255, 255, 0.7);
     padding: 5px 10px;
+    border-radius: 5px;
 }
