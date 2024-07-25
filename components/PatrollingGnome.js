@@ -1,15 +1,16 @@
 export class PatrollingGnome {
-    constructor(x, canvasWidth, canvasHeight, renderer) {
+    constructor(x, canvasWidth, canvasHeight, renderer, gnomeImage) {
         this.x = x;
         this.y = canvasHeight - 30;
         this.speed = 1;
         this.direction = Math.random() < 0.5 ? -1 : 1;
         this.canvasWidth = canvasWidth;
         this.renderer = renderer;
+        this.gnomeImage = gnomeImage;
     }
 
     draw() {
-        this.renderer.ctx.drawImage(this.renderer.gnomeImg, this.x, this.y - 30, 60, 60);
+        this.renderer.drawImage(this.gnomeImage, this.x, this.y - 30, 60, 60);
     }
 
     update() {

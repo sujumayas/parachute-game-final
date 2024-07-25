@@ -1,5 +1,5 @@
 export class FallingWord {
-    constructor(word, canvasWidth, renderer) {
+    constructor(word, canvasWidth, renderer, gnomeImage) {
         this.word = word;
         this.x = Math.random() * (canvasWidth - 100);
         this.y = 0;
@@ -8,6 +8,7 @@ export class FallingWord {
         this.frequency = 0.02 + Math.random() * 0.03;
         this.phase = Math.random() * Math.PI * 2;
         this.renderer = renderer;
+        this.gnomeImage = gnomeImage;
     }
 
     draw() {
@@ -38,8 +39,8 @@ export class FallingWord {
         this.renderer.ctx.lineWidth = 1;
         this.renderer.ctx.stroke();
 
-        // Draw gnome
-        this.renderer.ctx.drawImage(this.renderer.gnomeImg, this.x, this.y + parachuteHeight, gnomeWidth, gnomeHeight);
+        // Draw gnome with custom image
+        this.renderer.drawImage(this.gnomeImage, this.x, this.y + parachuteHeight, gnomeWidth, gnomeHeight);
 
         // Draw word
         this.renderer.drawText(this.word, this.x + parachuteWidth / 2, this.y + 20, {

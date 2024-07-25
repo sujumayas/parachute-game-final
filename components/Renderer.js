@@ -4,8 +4,24 @@ export class Renderer {
         this.ctx = canvas.getContext('2d');
         this.backgroundImg = new Image();
         this.backgroundImg.src = 'https://as2.ftcdn.net/v2/jpg/07/74/59/31/1000_F_774593110_JqF5VoFkHpEG39ux6ngEY6OVJJ6RT3lN.jpg';
-        this.gnomeImg = new Image();
-        this.gnomeImg.src = 'gnome3.png';
+        this.gnomeImages = {};
+        this.loadedImages = 0;
+        this.totalImages = 6; // background + 5 gnome images
+        this.onAllImagesLoaded = null;
+    }
+
+    preloadImages(imageNames) {
+        imageNames.forEach(name => {
+            const img = new Image();
+            img.onload = () => {
+                this.loadedImages++;
+                if (this.loadedImages === this.totalImages && this.onAllImagesLoaded) {
+                    this.onAllImagesLoaded();
+                }
+            };
+            img.src = name;
+            this.gnomeImages[name] = img;
+        });
     }
 
     clear() {
@@ -19,6 +35,13 @@ export class Renderer {
     drawShip() {
         this.ctx.fillStyle = 'brown';
         this.ctx.fillRect(this.canvas.width / 2 - 25, this.canvas.height - 30, 50, 30);
+    }
+
+    drawImage(src, x, y, width, height) {
+        const img = this.gnomeImages[src] || this.backgroundImg;
+        if (img.complete) {
+            this.ctx.drawImage(img, x, y, width, height);
+        }
     }
 
     drawText(text, x, y, options = {}) {

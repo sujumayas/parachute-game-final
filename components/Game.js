@@ -32,12 +32,16 @@ export class Game {
             score: Math.floor(Math.random() * 2000) + 1000,
             timestamp: Date.now() - Math.floor(Math.random() * 30) * 24 * 60 * 60 * 1000
         })).sort((a, b) => b.score - a.score);
+        this.gnomeImages = ['gnome1.png', 'gnome2.png', 'gnome3.png', 'gnome4.png', 'gnome5.png']
     }
 
     init() {
         window.addEventListener('resize', this.resizeCanvas.bind(this));
         this.resizeCanvas();
-        this.gameLoop();
+        this.renderer.preloadImages([...this.gnomeImages, 'walkingGnome.png']);
+        this.renderer.onAllImagesLoaded = () => {
+            this.gameLoop();
+        };
     }
 
     resizeCanvas() {
@@ -48,7 +52,8 @@ export class Game {
     addWord() {
         if (this.fallingWords.length < 5 && Math.random() < 0.02) {
             const word = this.words[Math.floor(Math.random() * this.words.length)];
-            this.fallingWords.push(new FallingWord(word, this.canvas.width, this.renderer));
+            const randomGnomeImage = this.gnomeImages[Math.floor(Math.random() * this.gnomeImages.length)];
+            this.fallingWords.push(new FallingWord(word, this.canvas.width, this.renderer, randomGnomeImage));
         }
     }
 
@@ -95,7 +100,7 @@ export class Game {
             if (word.y > this.canvas.height - 30) {
                 this.lives--;
                 this.audioManager.playSound(this.audioManager.hurtSound);
-                this.patrollingGnomes.push(new PatrollingGnome(word.x, this.canvas.width, this.canvas.height, this.renderer));
+                this.patrollingGnomes.push(new PatrollingGnome(word.x, this.canvas.width, this.canvas.height, this.renderer, 'walkingGnome.png'));
                 return false;
             }
             return true;
