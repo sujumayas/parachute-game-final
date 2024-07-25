@@ -1,9 +1,9 @@
 import React from 'react'
 import Head from 'next/head'
 import styles from '../styles/Home.module.css'
-import Game from '../components/Game.js'
+import Home from '../components/Home.js'
 
-export default function Home() {
+export default function TheIndex() {
     return (
         <div className={styles.container}>
             <Head>
@@ -16,7 +16,7 @@ export default function Home() {
                     Welcome to Word Parachute Game!
                 </h1>
 
-                <Game/>
+                <Home/>
             </main>
         </div>
     )
